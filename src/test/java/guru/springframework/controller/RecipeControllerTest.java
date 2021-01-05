@@ -1,5 +1,6 @@
 package guru.springframework.controller;
 
+import guru.springframework.domain.Category;
 import guru.springframework.domain.Recipe;
 import guru.springframework.service.RecipeService;
 import org.junit.Before;
@@ -8,6 +9,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
@@ -28,8 +32,10 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void testGetRecipe() throws Exception {
-        Recipe recipe = Recipe.builder().id(1L).build();
+    public void testShowById() throws Exception {
+        Recipe recipe = Recipe.builder().id(1L).categories(Stream.of(
+                Category.builder().description("French").build()).collect(Collectors.toSet())).build();
+
         MockMvc mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
 
         when(recipeService.findById(1L)).thenReturn(recipe);
@@ -37,6 +43,7 @@ public class RecipeControllerTest {
         mockMvc.perform(get("/recipe/show/1"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/show"))
-                .andExpect(model().attribute("recipe", recipe));
+                .andExpect(model().attribute("recipe", recipe))
+                .andExpect(model().attribute("categories", recipe.getCategories()));
     }
 }
