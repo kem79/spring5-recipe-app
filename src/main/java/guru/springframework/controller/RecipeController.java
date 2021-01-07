@@ -22,7 +22,6 @@ public class RecipeController {
         Recipe recipe = recipeService.findById(new Long(id));
 
         model.addAttribute("recipe", recipe);
-        model.addAttribute("categories", recipe.getCategories());
 
         return "recipe/show";
     }

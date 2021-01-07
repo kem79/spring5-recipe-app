@@ -133,7 +133,13 @@ public class LoadData implements ApplicationListener<ContextRefreshedEvent> {
         perfectGuacamole.getCategories().add(americanCategory);
         perfectGuacamole.getCategories().add(mexicanCategory);
 
+        perfectGuacamole.setServings(4);
+        perfectGuacamole.setUrl("https://www.simplyrecipes.com/recipes/perfect_guacamole/");
+        perfectGuacamole.setSource("Simply Recipes");
+
         recipes.add(perfectGuacamole);
+
+
 
         // taco recipe
         Recipe tacoRecipe = new Recipe();
